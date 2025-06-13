@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout - Njagu Coffee</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #fff;
+      color: #333;
+    }
+    h1 {
+      color: #5a0b0b;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+    .total {
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    .payment-section {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #ccc;
+    }
+    .bank-link {
+      display: inline-block;
+      margin-top: 10px;
+      color: white;
+      background-color: #135b47;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .bank-link:hover {
+      background-color: #0c3e31;
+    }
+  </style>
+</head>
+<body>
+  <h1>Checkout</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Qty</th>
+        <th>Price (KES)</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody id="cart-table-body"></tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3" class="total">Total</td>
+        <td class="total" id="total-price">KES 0</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="payment-section">
+    <h2>Payment</h2>
+    <p>Pay via bank transfer to:</p>
+    <p><strong>Njagu Coffee Ltd</strong><br> Account No: <strong>123456789</strong> <br>Bank: ABC Bank</p>
+    <a href="https://yourbanklink.com/payment" class="bank-link" target="_blank">Pay Now</a>
+  </div>
+
+  <script>
+    const cart = JSON.parse(localStorage.getItem('njaguCart'));
+    const tableBody = document.getElementById('cart-table-body');
+    let total = 0;
+
+    for (const item of Object.values(cart)) {
+      if (item.quantity > 0) {
+        const subtotal = item.quantity * item.price;
+        total += subtotal;
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${item.name}</td>
+          <td>${item.quantity}</td>
+          <td>KES ${item.price}</td>
+          <td>KES ${subtotal}</td>
+        `;
+        tableBody.appendChild(row);
+      }
+    }
+
+    document.getElementById('total-price').textContent = `KES ${total}`;
+  </script>
+</body>
+</html>
